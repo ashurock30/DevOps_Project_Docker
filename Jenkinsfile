@@ -9,6 +9,7 @@ pipeline{
     parameters{
 
         string(name: 'branch_name', description: "Branch Name", defaultValue: 'master')
+        booleanParam description: 'Set to True if you want to perform the SonarQube Scan & Quality Gate Check', name: 'Sonarqube_Scan'
     }
 
     stages{
@@ -47,6 +48,9 @@ pipeline{
         }
 
         stage('SonarQube Scan '){
+            when {
+                environment name: 'Sonarqube_Scan', value: 'true'
+            }
             steps{
                script{
                    def SonarQubecredentialsId = 'sonar-test'
@@ -56,6 +60,9 @@ pipeline{
         }
 
         stage('Quality Gate Status Check'){
+            when {
+                environment name: 'Sonarqube_Scan', value: 'true'
+            }
             steps{
                script{
                    def SonarQubecredentialsId = 'sonar-test'

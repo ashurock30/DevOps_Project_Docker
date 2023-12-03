@@ -1,29 +1,26 @@
-@Library('my-shared-library') _
+@Library('Jenkins_Shared_Library') _
 
 pipeline{
 
-    agent any
+    agent {
+        label 'DEVLINUX'
+    }
 
     parameters{
 
-        choice(name: 'action', choices: 'create\ndelete', description: 'Choose create/Destroy')
-        string(name: 'ImageName', description: "name of the docker build", defaultValue: 'javapp')
-        string(name: 'ImageTag', description: "tag of the docker build", defaultValue: 'v1')
-        string(name: 'DockerHubUser', description: "name of the Application", defaultValue: 'vikashashoke')
+        string(name: 'branch_name', description: "Branch Name", defaultValue: '')
     }
 
     stages{
          
         stage('Git Checkout'){
-                    when { expression {  params.action == 'create' } }
             steps{
-            gitCheckout(
-                branch: "main",
-                url: "https://github.com/vikash-kumar01/mrdevops_java_app.git"
-            )
+                gitCheckout(
+                    "${params.branch_name}"
+                )
             }
         }
-         stage('Unit Test maven'){
+        /*stage('Unit Test maven'){
          
          when { expression {  params.action == 'create' } }
 
@@ -107,6 +104,6 @@ pipeline{
                    dockerImageCleanup("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
                }
             }
-        }      
+        }*/      
     }
 }

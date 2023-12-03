@@ -8,7 +8,7 @@ pipeline{
 
     parameters{
 
-        string(name: 'branch_name', description: "Branch Name", defaultValue: '')
+        string(name: 'branch_name', description: "Branch Name", defaultValue: 'master')
     }
 
     stages{

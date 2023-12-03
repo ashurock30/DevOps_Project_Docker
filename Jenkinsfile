@@ -10,6 +10,9 @@ pipeline{
 
         string(name: 'branch_name', description: "Branch Name", defaultValue: 'master')
         booleanParam description: 'Set to True if you want to perform the SonarQube Scan & Quality Gate Check', name: 'Sonarqube_Scan'
+        string(name: 'ImageName', description: "Name of the Image", defaultValue: 'MyJavaApp')
+        string(name: 'ImageTag', description: "Tag of the Image", defaultValue: 'v1')
+        string(name: 'DockerHubUser', description: "Docker Hub User", defaultValue: 'ashutosh30')
     }
 
     stages{
@@ -71,24 +74,22 @@ pipeline{
             }
         }
 
-        // stage('Docker Image Build'){
-        //  when { expression {  params.action == 'create' } }
-        //     steps{
-        //        script{
-                   
-        //            dockerBuild("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
-        //        }
-        //     }
-        // }
-        //  stage('Docker Image Scan: trivy '){
-        //  when { expression {  params.action == 'create' } }
-        //     steps{
-        //        script{
-                   
-        //            dockerImageScan("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
-        //        }
-        //     }
-        // }
+        stage('Docker Image Build'){
+            steps{
+               script{
+                   dockerBuild("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
+               }
+            }
+        }
+
+        stage('Docker Image Scan'){
+            steps{
+               script{
+                   dockerImageScan("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
+               }
+            }
+        }
+
         // stage('Docker Image Push : DockerHub '){
         //  when { expression {  params.action == 'create' } }
         //     steps{

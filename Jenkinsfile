@@ -101,4 +101,22 @@ pipeline{
         //     }
         // }     
     }
+
+    post {
+        always {
+            cleanWs()
+            echo "Workspace Cleaned"
+        }
+        success {
+            // Actions to be taken if the build is successful
+            echo 'Build successful!'
+
+            // Example: Trigger downstream jobs or deployments
+            // build job: 'Deploy-App', wait: false
+        }
+        failure {
+            // Actions to be taken if the build fails
+            echo 'Build failed!'
+        }
+    }
 }

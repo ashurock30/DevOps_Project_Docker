@@ -10,7 +10,7 @@ pipeline{
 
         string(name: 'branch_name', description: "Branch Name", defaultValue: 'master')
         booleanParam description: 'Set to True if you want to perform the SonarQube Scan & Quality Gate Check', name: 'Sonarqube_Scan'
-        string(name: 'ImageName', description: "Name of the Image", defaultValue: 'MyJavaApp')
+        string(name: 'ImageName', description: "Name of the Image", defaultValue: 'myjavaapp')
         string(name: 'ImageTag', description: "Tag of the Image", defaultValue: '1.0.0')
         string(name: 'DockerHubUser', description: "Docker Hub User", defaultValue: '')
     }
